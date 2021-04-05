@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class MiddleRow extends StatefulWidget {
@@ -25,8 +24,11 @@ class _MiddleRowState extends State<MiddleRow> {
   final _controllerTens;
   final _controllerOnes;
 
-  double x = 0.0;
-  double y = 0.0;
+  //int _radioValue;
+  int _radioValueHundred;
+  int _radioValueTens;
+  //int _radioValueOnes;
+  int result;
 
   _MiddleRowState(this._controllerThousand, this._controllerHundred,
       this._controllerTens, this._controllerOnes);
@@ -40,136 +42,200 @@ class _MiddleRowState extends State<MiddleRow> {
     _controllerOnes.addListener(() => setState(() {}));
   }
 
-  void _updateLocation(PointerEvent details) {
-    print('Enter.........');
+  void _handleRadioValueHundredChange(int value) {
     setState(() {
-      x = details.position.dx;
-      y = details.position.dy;
+      _radioValueHundred = value;
+      switch (_radioValueHundred) {
+        case 0:
+          result = _radioValueHundred;
+          break;
+        case 1:
+          result = _radioValueHundred;
+          break;
+      }
     });
-    print('${x.toStringAsFixed(2)}');
+  }
+
+  void _handleRadioValueTensChange(int value) {
+    setState(() {
+      _radioValueTens = value;
+      switch (_radioValueHundred) {
+        case 0:
+          result = _radioValueTens;
+          break;
+        case 1:
+          result = _radioValueTens;
+          break;
+      }
+    });
+  }
+
+  Widget getRadioButtons(int _radioValue, Function fun) {
+    return Row(
+      children: [
+        Radio(
+          value: 0,
+          groupValue: _radioValue,
+          onChanged: fun,
+        ),
+        Radio(
+          value: 1,
+          groupValue: _radioValue,
+          onChanged: fun,
+        ),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: 3,
+      flex: 5,
       child: Align(
         alignment: Alignment.topCenter,
-        child: ConstrainedBox(
-          constraints:
-              BoxConstraints.tight(Size(MediaQuery.of(context).size.width, 75)),
-          child: MouseRegion(
-            //onHover: _updateLocation,
-            onEnter: (PointerEnterEvent event) {
-              print('x: ${event.position.dx}, y: ${event.position.dy}');
-            },
-            onHover: (PointerHoverEvent event) {
-              print('x: ${event.position.dx}, y: ${event.position.dy}');
-            },
-            onExit: (PointerExitEvent event) {
-              print('x: ${event.position.dx}, y: ${event.position.dy}');
-            },
-            child: Container(
-              //color: Colors.amber,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  //Text("hello: ${x.toStringAsFixed(2)}"),
-                  DragTarget<String>(
-                    onWillAccept: (data) {
-                      return true;
-                    },
-                    onAccept: (data) {
-                      setState(() {
-                        _forThousand(data);
-                      });
-                    },
-                    builder: (context, acceptData, rejectData) {
-                      print('x axis: ${x.toStringAsFixed(2)}');
-                      return Draggable<String>(
-                        data: "ThousandDollar",
-                        axis: Axis.horizontal,
-                        //dragAnchor: DragAnchor.pointer,
-                        child: _getGenericContainerWidget(
-                            'assets/images/ThousandDollarStack.jpg',
-                            'assets/images/ThousandDollar.jpg',
-                            _controllerThousand),
-                        feedback: _getContainerMiddleRow(
-                            'assets/images/ThousandDollar.jpg', true),
-                      );
-                    },
-                  ),
-                  /************************************************************* */
-                  DragTarget<String>(
-                    onWillAccept: (data) {
-                      return true;
-                    },
-                    onAccept: (data) {
-                      setState(() {
-                        _forHundred(data);
-                      });
-                    },
-                    builder: (context, acceptData, rejectData) {
-                      return Draggable(
-                        data: 'HundredDollar',
-                        child: _getGenericContainerWidget(
-                            'assets/images/HundredDollarStack.jpg',
-                            'assets/images/HundredDollar.jpg',
-                            _controllerHundred),
-                        feedback: _getContainerMiddleRow(
-                            'assets/images/HundredDollar.jpg', true),
-                      );
-                    },
-                  ),
-                  /******************************************************* */
-
-                  DragTarget<String>(
-                    onWillAccept: (data) {
-                      return true;
-                    },
-                    onAccept: (data) {
-                      setState(() {
-                        _forTen(data);
-                      });
-                    },
-                    builder: (context, acceptData, rejectData) {
-                      return Draggable<String>(
-                        data: 'TenDollar',
-                        child: _getGenericContainerWidget(
-                            'assets/images/TenDollarStack.jpg',
-                            'assets/images/TenDollar.jpg',
-                            _controllerTens),
-                        feedback: _getContainerMiddleRow(
-                            'assets/images/TenDollarStack.jpg', true),
-                      );
-                    },
-                  ),
-                  /******************************************************* */
-                  DragTarget<String>(
-                    onWillAccept: (data) {
-                      return true;
-                    },
-                    onAccept: (data) {
-                      setState(() {
-                        _forOne(data);
-                      });
-                    },
-                    builder: (context, acceptData, rejectData) {
-                      return Draggable<String>(
-                        data: 'OneDollar',
-                        child: _getGenericContainerWidget(
-                            'assets/images/OneDollarStack.jpg',
-                            'assets/images/OneDollar.jpg',
-                            _controllerOnes),
-                        feedback: _getContainerMiddleRow(
-                            'assets/images/OneDollar.jpg', true),
-                      );
-                    },
-                  ),
-                ],
-              ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              children: [
+                Row(
+                  children: [
+                    //getRadioButtons(_radioValue),
+                    SizedBox(
+                      height: 49,
+                    )
+                  ],
+                ),
+                DragTarget<String>(
+                  onWillAccept: (data) {
+                    return true;
+                  },
+                  onAccept: (data) {
+                    setState(() {
+                      _forThousand(data);
+                    });
+                  },
+                  builder: (context, acceptData, rejectData) {
+                    return Draggable<String>(
+                      data: "ThousandDollar",
+                      axis: Axis.horizontal,
+                      child: _getGenericContainerWidget(
+                          'assets/images/ThousandDollarStack.jpg',
+                          'assets/images/ThousandDollar.jpg',
+                          _controllerThousand),
+                      feedback: _getContainerMiddleRow(
+                          'assets/images/ThousandDollar.jpg', true),
+                    );
+                  },
+                ),
+              ],
             ),
-          ),
+            /************************************************************* */
+            Column(
+              children: [
+                Row(
+                  children: [
+                    getRadioButtons(
+                        _radioValueHundred, _handleRadioValueHundredChange),
+                  ],
+                ),
+                DragTarget<String>(
+                  onWillAccept: (data) {
+                    return true;
+                  },
+                  onAccept: (data) {
+                    setState(() {
+                      _forHundred(data);
+                    });
+                  },
+                  builder: (context, acceptData, rejectData) {
+                    return Draggable(
+                      data: 'HundredDollar',
+                      child: _getGenericContainerWidget(
+                          'assets/images/HundredDollarStack.jpg',
+                          'assets/images/HundredDollar.jpg',
+                          _controllerHundred),
+                      feedback: _getContainerMiddleRow(
+                          _radioValueHundred == 0
+                              ? 'assets/images/HundredDollar.jpg'
+                              : 'assets/images/HundredDollarStack.jpg',
+                          true),
+                    );
+                  },
+                ),
+              ],
+            ),
+            /******************************************************* */
+
+            Column(
+              children: [
+                Row(
+                  children: [
+                    getRadioButtons(
+                        _radioValueTens, _handleRadioValueTensChange),
+                  ],
+                ),
+                DragTarget<String>(
+                  onWillAccept: (data) {
+                    return true;
+                  },
+                  onAccept: (data) {
+                    setState(() {
+                      _forTen(data);
+                    });
+                  },
+                  builder: (context, acceptData, rejectData) {
+                    return Draggable<String>(
+                      data: 'TenDollar',
+                      child: _getGenericContainerWidget(
+                          'assets/images/TenDollarStack.jpg',
+                          'assets/images/TenDollar.jpg',
+                          _controllerTens),
+                      feedback: _getContainerMiddleRow(
+                          _radioValueTens == 0
+                              ? 'assets/images/TenDollarStack.jpg'
+                              : 'assets/images/TenDollar.jpg',
+                          true),
+                    );
+                  },
+                ),
+              ],
+            ),
+            /******************************************************* */
+
+            Column(
+              children: [
+                Row(
+                  children: [
+                    SizedBox(
+                      height: 49,
+                    )
+                  ],
+                ),
+                DragTarget<String>(
+                  onWillAccept: (data) {
+                    return true;
+                  },
+                  onAccept: (data) {
+                    setState(() {
+                      _forOne(data);
+                    });
+                  },
+                  builder: (context, acceptData, rejectData) {
+                    return Draggable<String>(
+                      data: 'OneDollar',
+                      child: _getGenericContainerWidget(
+                          'assets/images/OneDollarStack.jpg',
+                          'assets/images/OneDollar.jpg',
+                          _controllerOnes),
+                      feedback: _getContainerMiddleRow(
+                          'assets/images/OneDollarStack.jpg', true),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
