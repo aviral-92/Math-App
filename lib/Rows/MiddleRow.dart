@@ -118,7 +118,7 @@ class _MiddleRowState extends State<MiddleRow> {
                   builder: (context, acceptData, rejectData) {
                     return Draggable<String>(
                       data: "ThousandDollar",
-                      axis: Axis.horizontal,
+                      //axis: Axis.horizontal,
                       child: _getGenericContainerWidget(
                           'assets/images/ThousandDollarStack.jpg',
                           'assets/images/ThousandDollar.jpg',

@@ -1,88 +1,345 @@
+import 'package:MathApp/modal/ModalController.dart';
 import 'package:flutter/material.dart';
 
-class BottomRow extends StatelessWidget {
+class BottomRow extends StatefulWidget {
+  final controllerThousand;
+  final controllerHundred;
+  final controllerTens;
+  final controllerOnes;
+
+  const BottomRow(
+      {Key key,
+      this.controllerThousand,
+      this.controllerHundred,
+      this.controllerTens,
+      this.controllerOnes})
+      : super(key: key);
+  @override
+  _BottomRowState createState() => _BottomRowState(
+      controllerThousand, controllerHundred, controllerTens, controllerOnes);
+}
+
+class _BottomRowState extends State<BottomRow> {
+  final _controllerThousand;
+  final _controllerHundred;
+  final _controllerTens;
+  final _controllerOnes;
+  final controllerDistribution = new TextEditingController();
+
+  ModalController modalController1 = new ModalController();
+  ModalController modalController2 = new ModalController();
+  ModalController modalController3 = new ModalController();
+  ModalController modalController4 = new ModalController();
+  ModalController modalController5 = new ModalController();
+  ModalController modalController6 = new ModalController();
+  ModalController modalController7 = new ModalController();
+  ModalController modalController8 = new ModalController();
+  ModalController modalController9 = new ModalController();
+
+  _BottomRowState(this._controllerThousand, this._controllerHundred,
+      this._controllerTens, this._controllerOnes);
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: 3,
+      flex: 4,
       child: Align(
-        alignment: Alignment.bottomCenter,
+        alignment: Alignment.center,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Draggable<int>(
-              data: 0,
-              child: getContainer(Colors.orange, Colors.black, '0'),
-              feedback: getContainer(Colors.orange, Colors.black, '0'),
+            Container(
+              width: 50,
+              child: TextField(
+                maxLength: 1,
+                style: TextStyle(
+                  fontSize: 21,
+                ),
+                decoration: InputDecoration(
+                  border: new OutlineInputBorder(
+                    borderSide: new BorderSide(
+                      color: Colors.teal,
+                    ),
+                  ),
+                ),
+                controller: controllerDistribution,
+                onEditingComplete: () => {print('object')},
+              ),
             ),
-            Draggable<int>(
-              data: 1,
-              child: getContainer(Colors.red, Colors.white, '1'),
-              feedback: getContainer(Colors.red, Colors.white, '1'),
-            ),
-            Draggable<int>(
-              data: 2,
-              child: getContainer(Colors.green, Colors.black, '2'),
-              feedback: getContainer(Colors.green, Colors.black, '2'),
-            ),
-            Draggable<int>(
-              data: 3,
-              child: getContainer(Colors.purple, Colors.white, '3'),
-              feedback: getContainer(Colors.purple, Colors.white, '3'),
-            ),
-            Draggable<int>(
-              data: 4,
-              child: getContainer(Colors.blue, Colors.black, '4'),
-              feedback: getContainer(Colors.blue, Colors.black, '4'),
-            ),
-            Draggable<int>(
-              data: 5,
-              child: getContainer(Colors.indigo, Colors.white, '5'),
-              feedback: getContainer(Colors.indigo, Colors.white, '5'),
-            ),
-            Draggable<int>(
-              data: 6,
-              child: getContainer(Colors.yellow, Colors.black, '6'),
-              feedback: getContainer(Colors.yellow, Colors.black, '6'),
-            ),
-            Draggable<int>(
-              data: 7,
-              child: getContainer(Colors.brown, Colors.white, '7'),
-              feedback: getContainer(Colors.brown, Colors.white, '7'),
-            ),
-            Draggable<int>(
-              data: 8,
-              child: getContainer(Colors.cyan, Colors.black, '8'),
-              feedback: getContainer(Colors.cyan, Colors.black, '8'),
-            ),
-            Draggable<int>(
-              data: 9,
-              child: getContainer(Colors.pink, Colors.white, '9'),
-              feedback: getContainer(Colors.pink, Colors.white, '9'),
-            ),
+            getWrap(controllerDistribution.text),
+            /*Wrap(
+              spacing: 13.0,
+              alignment: WrapAlignment.start,
+              children: getList(controllerDistribution.text),
+            ),*/
           ],
         ),
       ),
     );
   }
 
-  Widget getContainer(Color color, Color fontColor, String txt) => Container(
-        width: 55,
-        //height: 60,
-        child: Align(
-          alignment: Alignment.center,
-          child: Text(
-            txt,
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.w900,
-              color: fontColor,
-            ),
+  Widget getWrap(String num) {
+    if (num.isEmpty) {
+      return Container();
+    }
+    int number = int.parse(num);
+    return Wrap(
+      spacing: 13.0,
+      alignment: WrapAlignment.start,
+      children: [
+        number > 0
+            ? () {
+                number--;
+                return getContainer(1, modalController1);
+              }()
+            : Container(),
+        number > 0
+            ? () {
+                number--;
+                return getContainer(2, modalController2);
+              }()
+            : Container(),
+        number > 0
+            ? () {
+                number--;
+                return getContainer(3, modalController3);
+              }()
+            : Container(),
+        number > 0
+            ? () {
+                number--;
+                return getContainer(4, modalController4);
+              }()
+            : Container(
+                height: 80,
+                width: 70,
+              ),
+        number > 0
+            ? () {
+                number--;
+                return getContainer(5, modalController5);
+              }()
+            : Container(
+                height: 80,
+                width: 70,
+              ),
+        number > 0
+            ? () {
+                number--;
+                return getContainer(6, modalController6);
+              }()
+            : Container(
+                height: 80,
+                width: 70,
+              ),
+        number > 0
+            ? () {
+                number--;
+                return getContainer(7, modalController7);
+              }()
+            : Container(
+                height: 80,
+                width: 70,
+              ),
+        number > 0
+            ? () {
+                number--;
+                return getContainer(8, modalController8);
+              }()
+            : Container(
+                height: 80,
+                width: 70,
+              ),
+        number > 0
+            ? () {
+                number--;
+                return getContainer(9, modalController9);
+              }()
+            : Container(
+                height: 80,
+                width: 70,
+              ),
+      ],
+    );
+  }
+
+  Widget getContainer(int key, ModalController controller) {
+    return Container(
+      key: ValueKey(key),
+      height: 80,
+      width: 70,
+      child: Column(
+        children: [
+          DragTarget<String>(
+            onWillAccept: (data) {
+              return true;
+            },
+            onAccept: (data) {
+              setState(() {
+                _forBill(data, key);
+              });
+            },
+            builder: (context, acceptData, rejectData) {
+              return Draggable<String>(
+                data: 'ThousandDollar$key',
+                child: _getInnerContainer(
+                    Colors.green, controller.thousandController),
+                feedback: _getInnerContainer(
+                    Colors.green, controller.thousandController),
+              );
+            },
           ),
-        ),
-        decoration: BoxDecoration(
-          color: color,
-          shape: BoxShape.circle,
-        ),
-      );
+          /*****************************BLUE*********************************** */
+          DragTarget<String>(
+            onWillAccept: (data) {
+              return true;
+            },
+            onAccept: (data) {
+              setState(() {
+                _forBill(data, key);
+              });
+            },
+            builder: (context, acceptData, rejectData) {
+              return Draggable<String>(
+                data: 'HundredDollar$key',
+                child: _getInnerContainer(
+                    Colors.blue, controller.hundredController),
+                feedback: _getInnerContainer(
+                    Colors.blue, controller.hundredController),
+              );
+            },
+          ),
+          /*****************************PINK*********************************** */
+          DragTarget<String>(
+            onWillAccept: (data) {
+              return true;
+            },
+            onAccept: (data) {
+              setState(() {
+                _forBill(data, key);
+              });
+            },
+            builder: (context, acceptData, rejectData) {
+              return Draggable<String>(
+                data: 'TenDollar$key',
+                child: _getInnerContainer(
+                    Colors.pink[100], controller.tensController),
+                feedback: _getInnerContainer(
+                    Colors.pink[100], controller.tensController),
+              );
+            },
+          ),
+          /*****************************YELLOW*********************************** */
+          DragTarget<String>(
+            onWillAccept: (data) {
+              return true;
+            },
+            onAccept: (data) {
+              setState(() {
+                _forBill(data, key);
+              });
+            },
+            builder: (context, acceptData, rejectData) {
+              return Draggable<String>(
+                data: 'TenDollar$key',
+                child: _getInnerContainer(
+                    Colors.yellow, controller.onesController),
+                feedback: _getInnerContainer(
+                    Colors.yellow, controller.onesController),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _getInnerContainer(Color color, TextEditingController txt) {
+    return Container(
+      height: 20,
+      width: 70,
+      color: color,
+      child: getText(txt),
+    );
+  }
+
+  Widget getText(TextEditingController controller) {
+    return Text(
+      controller.text,
+      style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w900,
+        color: Colors.black87,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  void _forBill(String data, int key) {
+    print(data);
+    if (data == 'ThousandDollar') {
+      int thousandValue = int.parse(_controllerThousand.text);
+      _controllerThousand.text = (thousandValue - 1).toString();
+    } else if (data == 'HundredDollar') {
+      int hundredValue = int.parse(_controllerHundred.text);
+      _controllerHundred.text = (hundredValue - 1).toString();
+    } else if (data == 'TenDollar') {
+      int tenValue = int.parse(_controllerTens.text);
+      _controllerTens.text = (tenValue - 1).toString();
+    } else {
+      int oneValue = int.parse(_controllerOnes.text);
+      _controllerOnes.text = (oneValue - 1).toString();
+    }
+    changeText(key, data);
+  }
+
+  changeText(int key, String data) {
+    setState(() {
+      switch (key) {
+        case 1:
+          textChange(data, modalController1);
+          break;
+        case 2:
+          textChange(data, modalController2);
+          break;
+        case 3:
+          textChange(data, modalController3);
+          break;
+        case 4:
+          textChange(data, modalController4);
+          break;
+        case 5:
+          textChange(data, modalController5);
+          break;
+        case 6:
+          textChange(data, modalController6);
+          break;
+        case 7:
+          textChange(data, modalController7);
+          break;
+        case 8:
+          textChange(data, modalController8);
+          break;
+        case 9:
+          textChange(data, modalController9);
+          break;
+      }
+    });
+  }
+
+  void textChange(String data, ModalController modalController) {
+    if (data == 'ThousandDollar') {
+      modalController.thousandController.text =
+          (int.parse(modalController.thousandController.text) + 1).toString();
+    } else if (data == 'HundredDollar') {
+      modalController.hundredController.text =
+          (int.parse(modalController.hundredController.text) + 1).toString();
+    } else if (data == 'TenDollar') {
+      modalController.tensController.text =
+          (int.parse(modalController.tensController.text) + 1).toString();
+    } else {
+      modalController.onesController.text =
+          (int.parse(modalController.onesController.text) + 1).toString();
+    }
+  }
 }
