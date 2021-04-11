@@ -2,6 +2,7 @@ import 'package:MathApp/Rows/MiddleRow.dart';
 import 'package:flutter/material.dart';
 
 import 'Rows/BottomRow.dart';
+import 'modal/ModalController.dart';
 
 class SingleDesign extends StatefulWidget {
   @override
@@ -14,6 +15,16 @@ class _SingleDesign extends State<SingleDesign> {
   final controllerTens = new TextEditingController();
   final controllerOnes = new TextEditingController();
   final controllerDistribution = new TextEditingController();
+
+  ModalController modalController1 = new ModalController();
+  ModalController modalController2 = new ModalController();
+  ModalController modalController3 = new ModalController();
+  ModalController modalController4 = new ModalController();
+  ModalController modalController5 = new ModalController();
+  ModalController modalController6 = new ModalController();
+  ModalController modalController7 = new ModalController();
+  ModalController modalController8 = new ModalController();
+  ModalController modalController9 = new ModalController();
 
   @override
   void initState() {
@@ -57,6 +68,15 @@ class _SingleDesign extends State<SingleDesign> {
               controllerHundred: this.controllerHundred,
               controllerTens: this.controllerTens,
               controllerOnes: this.controllerOnes,
+              modalController1: this.modalController1,
+              modalController2: this.modalController2,
+              modalController3: this.modalController3,
+              modalController4: this.modalController4,
+              modalController5: this.modalController5,
+              modalController6: this.modalController6,
+              modalController7: this.modalController7,
+              modalController8: this.modalController8,
+              modalController9: this.modalController9,
             ),
             /* ***************Bottom ROW STARTS*********** */
             BottomRow(
@@ -64,6 +84,15 @@ class _SingleDesign extends State<SingleDesign> {
               controllerHundred: controllerHundred,
               controllerTens: controllerTens,
               controllerOnes: controllerOnes,
+              modalController1: this.modalController1,
+              modalController2: this.modalController2,
+              modalController3: this.modalController3,
+              modalController4: this.modalController4,
+              modalController5: this.modalController5,
+              modalController6: this.modalController6,
+              modalController7: this.modalController7,
+              modalController8: this.modalController8,
+              modalController9: this.modalController9,
             ),
           ],
         ),

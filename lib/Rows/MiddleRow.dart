@@ -1,3 +1,4 @@
+import 'package:MathApp/modal/ModalController.dart';
 import 'package:flutter/material.dart';
 
 class MiddleRow extends StatefulWidget {
@@ -6,16 +7,48 @@ class MiddleRow extends StatefulWidget {
   final controllerTens;
   final controllerOnes;
 
+  final ModalController modalController1;
+  final ModalController modalController2;
+  final ModalController modalController3;
+  final ModalController modalController4;
+  final ModalController modalController5;
+  final ModalController modalController6;
+  final ModalController modalController7;
+  final ModalController modalController8;
+  final ModalController modalController9;
+
   const MiddleRow(
       {Key key,
       this.controllerThousand,
       this.controllerHundred,
       this.controllerTens,
-      this.controllerOnes})
+      this.controllerOnes,
+      this.modalController1,
+      this.modalController2,
+      this.modalController3,
+      this.modalController4,
+      this.modalController5,
+      this.modalController6,
+      this.modalController7,
+      this.modalController8,
+      this.modalController9})
       : super(key: key);
   @override
-  _MiddleRowState createState() => _MiddleRowState(this.controllerThousand,
-      this.controllerHundred, this.controllerTens, this.controllerOnes);
+  _MiddleRowState createState() => _MiddleRowState(
+        this.controllerThousand,
+        this.controllerHundred,
+        this.controllerTens,
+        this.controllerOnes,
+        this.modalController1,
+        this.modalController2,
+        this.modalController3,
+        this.modalController4,
+        this.modalController5,
+        this.modalController6,
+        this.modalController7,
+        this.modalController8,
+        this.modalController9,
+      );
 }
 
 class _MiddleRowState extends State<MiddleRow> {
@@ -24,14 +57,36 @@ class _MiddleRowState extends State<MiddleRow> {
   final _controllerTens;
   final _controllerOnes;
 
+  final ModalController modalController1;
+  final ModalController modalController2;
+  final ModalController modalController3;
+  final ModalController modalController4;
+  final ModalController modalController5;
+  final ModalController modalController6;
+  final ModalController modalController7;
+  final ModalController modalController8;
+  final ModalController modalController9;
+
   //int _radioValue;
   int _radioValueHundred;
   int _radioValueTens;
   //int _radioValueOnes;
   int result;
 
-  _MiddleRowState(this._controllerThousand, this._controllerHundred,
-      this._controllerTens, this._controllerOnes);
+  _MiddleRowState(
+      this._controllerThousand,
+      this._controllerHundred,
+      this._controllerTens,
+      this._controllerOnes,
+      this.modalController1,
+      this.modalController2,
+      this.modalController3,
+      this.modalController4,
+      this.modalController5,
+      this.modalController6,
+      this.modalController7,
+      this.modalController8,
+      this.modalController9);
 
   @override
   void initState() {

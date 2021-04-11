@@ -7,16 +7,47 @@ class BottomRow extends StatefulWidget {
   final controllerTens;
   final controllerOnes;
 
+  final ModalController modalController1;
+  final ModalController modalController2;
+  final ModalController modalController3;
+  final ModalController modalController4;
+  final ModalController modalController5;
+  final ModalController modalController6;
+  final ModalController modalController7;
+  final ModalController modalController8;
+  final ModalController modalController9;
+
   const BottomRow(
       {Key key,
       this.controllerThousand,
       this.controllerHundred,
       this.controllerTens,
-      this.controllerOnes})
+      this.controllerOnes,
+      this.modalController1,
+      this.modalController2,
+      this.modalController3,
+      this.modalController4,
+      this.modalController5,
+      this.modalController6,
+      this.modalController7,
+      this.modalController8,
+      this.modalController9})
       : super(key: key);
   @override
   _BottomRowState createState() => _BottomRowState(
-      controllerThousand, controllerHundred, controllerTens, controllerOnes);
+      controllerThousand,
+      controllerHundred,
+      controllerTens,
+      controllerOnes,
+      this.modalController1,
+      this.modalController2,
+      this.modalController3,
+      this.modalController4,
+      this.modalController5,
+      this.modalController6,
+      this.modalController7,
+      this.modalController8,
+      this.modalController9);
 }
 
 class _BottomRowState extends State<BottomRow> {
@@ -26,18 +57,31 @@ class _BottomRowState extends State<BottomRow> {
   final _controllerOnes;
   final controllerDistribution = new TextEditingController();
 
-  ModalController modalController1 = new ModalController();
-  ModalController modalController2 = new ModalController();
-  ModalController modalController3 = new ModalController();
-  ModalController modalController4 = new ModalController();
-  ModalController modalController5 = new ModalController();
-  ModalController modalController6 = new ModalController();
-  ModalController modalController7 = new ModalController();
-  ModalController modalController8 = new ModalController();
-  ModalController modalController9 = new ModalController();
+  final ModalController modalController1;
+  final ModalController modalController2;
+  final ModalController modalController3;
+  final ModalController modalController4;
+  final ModalController modalController5;
+  final ModalController modalController6;
+  final ModalController modalController7;
+  final ModalController modalController8;
+  final ModalController modalController9;
 
-  _BottomRowState(this._controllerThousand, this._controllerHundred,
-      this._controllerTens, this._controllerOnes);
+  _BottomRowState(
+    this._controllerThousand,
+    this._controllerHundred,
+    this._controllerTens,
+    this._controllerOnes,
+    this.modalController1,
+    this.modalController2,
+    this.modalController3,
+    this.modalController4,
+    this.modalController5,
+    this.modalController6,
+    this.modalController7,
+    this.modalController8,
+    this.modalController9,
+  );
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -286,7 +330,7 @@ class _BottomRowState extends State<BottomRow> {
     } else if (data == 'TenDollar') {
       int tenValue = int.parse(_controllerTens.text);
       _controllerTens.text = (tenValue - 1).toString();
-    } else {
+    } else if (data == 'OneDollar') {
       int oneValue = int.parse(_controllerOnes.text);
       _controllerOnes.text = (oneValue - 1).toString();
     }
@@ -337,7 +381,7 @@ class _BottomRowState extends State<BottomRow> {
     } else if (data == 'TenDollar') {
       modalController.tensController.text =
           (int.parse(modalController.tensController.text) + 1).toString();
-    } else {
+    } else if (data == 'OneDollar') {
       modalController.onesController.text =
           (int.parse(modalController.onesController.text) + 1).toString();
     }
