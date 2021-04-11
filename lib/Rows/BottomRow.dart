@@ -7,47 +7,24 @@ class BottomRow extends StatefulWidget {
   final controllerTens;
   final controllerOnes;
 
-  final ModalController modalController1;
-  final ModalController modalController2;
-  final ModalController modalController3;
-  final ModalController modalController4;
-  final ModalController modalController5;
-  final ModalController modalController6;
-  final ModalController modalController7;
-  final ModalController modalController8;
-  final ModalController modalController9;
+  final List<ModalController> modalControllerList;
 
-  const BottomRow(
-      {Key key,
-      this.controllerThousand,
-      this.controllerHundred,
-      this.controllerTens,
-      this.controllerOnes,
-      this.modalController1,
-      this.modalController2,
-      this.modalController3,
-      this.modalController4,
-      this.modalController5,
-      this.modalController6,
-      this.modalController7,
-      this.modalController8,
-      this.modalController9})
-      : super(key: key);
+  const BottomRow({
+    Key key,
+    this.controllerThousand,
+    this.controllerHundred,
+    this.controllerTens,
+    this.controllerOnes,
+    this.modalControllerList,
+  }) : super(key: key);
   @override
   _BottomRowState createState() => _BottomRowState(
-      controllerThousand,
-      controllerHundred,
-      controllerTens,
-      controllerOnes,
-      this.modalController1,
-      this.modalController2,
-      this.modalController3,
-      this.modalController4,
-      this.modalController5,
-      this.modalController6,
-      this.modalController7,
-      this.modalController8,
-      this.modalController9);
+        this.controllerThousand,
+        this.controllerHundred,
+        this.controllerTens,
+        this.controllerOnes,
+        this.modalControllerList,
+      );
 }
 
 class _BottomRowState extends State<BottomRow> {
@@ -57,30 +34,14 @@ class _BottomRowState extends State<BottomRow> {
   final _controllerOnes;
   final controllerDistribution = new TextEditingController();
 
-  final ModalController modalController1;
-  final ModalController modalController2;
-  final ModalController modalController3;
-  final ModalController modalController4;
-  final ModalController modalController5;
-  final ModalController modalController6;
-  final ModalController modalController7;
-  final ModalController modalController8;
-  final ModalController modalController9;
+  final List<ModalController> modalControllerList;
 
   _BottomRowState(
     this._controllerThousand,
     this._controllerHundred,
     this._controllerTens,
     this._controllerOnes,
-    this.modalController1,
-    this.modalController2,
-    this.modalController3,
-    this.modalController4,
-    this.modalController5,
-    this.modalController6,
-    this.modalController7,
-    this.modalController8,
-    this.modalController9,
+    this.modalControllerList,
   );
   @override
   Widget build(BuildContext context) {
@@ -107,103 +68,35 @@ class _BottomRowState extends State<BottomRow> {
                   ),
                 ),
                 controller: controllerDistribution,
-                onEditingComplete: () => {print('object')},
               ),
             ),
             getWrap(controllerDistribution.text),
-            /*Wrap(
-              spacing: 13.0,
-              alignment: WrapAlignment.start,
-              children: getList(controllerDistribution.text),
-            ),*/
           ],
         ),
       ),
     );
   }
 
+  List<Widget> getWrapLoop(int num) {
+    List<Widget> list = new List();
+
+    for (int i = 0; i < num; i++) {
+      list.add(getContainer(i + 1, modalControllerList[i]));
+    }
+    for (int i = 0; i < 9 - num; i++) {
+      list.add(Container(width: 70));
+    }
+    return list;
+  }
+
   Widget getWrap(String num) {
     if (num.isEmpty) {
       return Container();
     }
-    int number = int.parse(num);
     return Wrap(
       spacing: 13.0,
       alignment: WrapAlignment.start,
-      children: [
-        number > 0
-            ? () {
-                number--;
-                return getContainer(1, modalController1);
-              }()
-            : Container(),
-        number > 0
-            ? () {
-                number--;
-                return getContainer(2, modalController2);
-              }()
-            : Container(),
-        number > 0
-            ? () {
-                number--;
-                return getContainer(3, modalController3);
-              }()
-            : Container(),
-        number > 0
-            ? () {
-                number--;
-                return getContainer(4, modalController4);
-              }()
-            : Container(
-                height: 80,
-                width: 70,
-              ),
-        number > 0
-            ? () {
-                number--;
-                return getContainer(5, modalController5);
-              }()
-            : Container(
-                height: 80,
-                width: 70,
-              ),
-        number > 0
-            ? () {
-                number--;
-                return getContainer(6, modalController6);
-              }()
-            : Container(
-                height: 80,
-                width: 70,
-              ),
-        number > 0
-            ? () {
-                number--;
-                return getContainer(7, modalController7);
-              }()
-            : Container(
-                height: 80,
-                width: 70,
-              ),
-        number > 0
-            ? () {
-                number--;
-                return getContainer(8, modalController8);
-              }()
-            : Container(
-                height: 80,
-                width: 70,
-              ),
-        number > 0
-            ? () {
-                number--;
-                return getContainer(9, modalController9);
-              }()
-            : Container(
-                height: 80,
-                width: 70,
-              ),
-      ],
+      children: getWrapLoop(int.parse(num)),
     );
   }
 
@@ -285,7 +178,7 @@ class _BottomRowState extends State<BottomRow> {
             },
             builder: (context, acceptData, rejectData) {
               return Draggable<String>(
-                data: 'TenDollar$key',
+                data: 'OneDollar$key',
                 child: _getInnerContainer(
                     Colors.yellow, controller.onesController),
                 feedback: _getInnerContainer(
@@ -338,37 +231,16 @@ class _BottomRowState extends State<BottomRow> {
   }
 
   changeText(int key, String data) {
-    setState(() {
-      switch (key) {
-        case 1:
-          textChange(data, modalController1);
-          break;
-        case 2:
-          textChange(data, modalController2);
-          break;
-        case 3:
-          textChange(data, modalController3);
-          break;
-        case 4:
-          textChange(data, modalController4);
-          break;
-        case 5:
-          textChange(data, modalController5);
-          break;
-        case 6:
-          textChange(data, modalController6);
-          break;
-        case 7:
-          textChange(data, modalController7);
-          break;
-        case 8:
-          textChange(data, modalController8);
-          break;
-        case 9:
-          textChange(data, modalController9);
-          break;
-      }
-    });
+    setState(
+      () {
+        for (int i = 0; i < 9; i++) {
+          if (key == i + 1) {
+            textChange(data, modalControllerList[i]);
+            break;
+          }
+        }
+      },
+    );
   }
 
   void textChange(String data, ModalController modalController) {

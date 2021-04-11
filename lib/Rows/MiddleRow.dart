@@ -6,48 +6,23 @@ class MiddleRow extends StatefulWidget {
   final controllerHundred;
   final controllerTens;
   final controllerOnes;
+  final List<ModalController> modalControllerList;
 
-  final ModalController modalController1;
-  final ModalController modalController2;
-  final ModalController modalController3;
-  final ModalController modalController4;
-  final ModalController modalController5;
-  final ModalController modalController6;
-  final ModalController modalController7;
-  final ModalController modalController8;
-  final ModalController modalController9;
-
-  const MiddleRow(
-      {Key key,
-      this.controllerThousand,
-      this.controllerHundred,
-      this.controllerTens,
-      this.controllerOnes,
-      this.modalController1,
-      this.modalController2,
-      this.modalController3,
-      this.modalController4,
-      this.modalController5,
-      this.modalController6,
-      this.modalController7,
-      this.modalController8,
-      this.modalController9})
-      : super(key: key);
+  const MiddleRow({
+    Key key,
+    this.controllerThousand,
+    this.controllerHundred,
+    this.controllerTens,
+    this.controllerOnes,
+    this.modalControllerList,
+  }) : super(key: key);
   @override
   _MiddleRowState createState() => _MiddleRowState(
         this.controllerThousand,
         this.controllerHundred,
         this.controllerTens,
         this.controllerOnes,
-        this.modalController1,
-        this.modalController2,
-        this.modalController3,
-        this.modalController4,
-        this.modalController5,
-        this.modalController6,
-        this.modalController7,
-        this.modalController8,
-        this.modalController9,
+        this.modalControllerList,
       );
 }
 
@@ -56,37 +31,19 @@ class _MiddleRowState extends State<MiddleRow> {
   final _controllerHundred;
   final _controllerTens;
   final _controllerOnes;
+  final List<ModalController> modalControllerList;
 
-  final ModalController modalController1;
-  final ModalController modalController2;
-  final ModalController modalController3;
-  final ModalController modalController4;
-  final ModalController modalController5;
-  final ModalController modalController6;
-  final ModalController modalController7;
-  final ModalController modalController8;
-  final ModalController modalController9;
-
-  //int _radioValue;
   int _radioValueHundred;
   int _radioValueTens;
-  //int _radioValueOnes;
   int result;
 
   _MiddleRowState(
-      this._controllerThousand,
-      this._controllerHundred,
-      this._controllerTens,
-      this._controllerOnes,
-      this.modalController1,
-      this.modalController2,
-      this.modalController3,
-      this.modalController4,
-      this.modalController5,
-      this.modalController6,
-      this.modalController7,
-      this.modalController8,
-      this.modalController9);
+    this._controllerThousand,
+    this._controllerHundred,
+    this._controllerTens,
+    this._controllerOnes,
+    this.modalControllerList,
+  );
 
   @override
   void initState() {
@@ -155,7 +112,6 @@ class _MiddleRowState extends State<MiddleRow> {
               children: [
                 Row(
                   children: [
-                    //getRadioButtons(_radioValue),
                     SizedBox(
                       height: 49,
                     )
@@ -173,7 +129,6 @@ class _MiddleRowState extends State<MiddleRow> {
                   builder: (context, acceptData, rejectData) {
                     return Draggable<String>(
                       data: "ThousandDollar",
-                      //axis: Axis.horizontal,
                       child: _getGenericContainerWidget(
                           'assets/images/ThousandDollarStack.jpg',
                           'assets/images/ThousandDollar.jpg',
@@ -376,6 +331,7 @@ class _MiddleRowState extends State<MiddleRow> {
         _controllerHundred.text = (hundredValue + 1).toString();
       }
     }
+    _forHundredBottomRow(data);
   }
 
   void _forThousand(String data) {
@@ -419,6 +375,7 @@ class _MiddleRowState extends State<MiddleRow> {
         _controllerThousand.text = (thousandValue + 1).toString();
       }
     }
+    _forThousandBottomRow(data);
   }
 
   void _forTen(String data) {
@@ -445,6 +402,7 @@ class _MiddleRowState extends State<MiddleRow> {
         _controllerTens.text = (tensValue + 1).toString();
       }
     }
+    _forTensBottomRow(data);
   }
 
   void _forOne(String data) {
@@ -462,6 +420,7 @@ class _MiddleRowState extends State<MiddleRow> {
       _controllerTens.text = (int.parse(_controllerTens.text) - 1).toString();
       _controllerOnes.text = (onesValue + 10).toString();
     }
+    _forOnesBottomRow(data);
   }
 
   Widget _alertDialog(String num) => AlertDialog(
@@ -477,4 +436,62 @@ class _MiddleRowState extends State<MiddleRow> {
         ],
         elevation: 24,
       );
+
+  void _forThousandBottomRow(String data) {
+    for (int i = 0; i < 9; i++) {
+      if (data == 'ThousandDollar${i + 1}') {
+        modalControllerList[i].thousandController.text =
+            (int.parse(modalControllerList[i].thousandController.text) - 1)
+                .toString();
+        int thousandValue = _controllerThousand.text.isEmpty
+            ? 0
+            : int.parse(_controllerThousand.text);
+        _controllerThousand.text = (thousandValue + 1).toString();
+        break;
+      }
+    }
+  }
+
+  void _forHundredBottomRow(String data) {
+    for (int i = 0; i < 9; i++) {
+      if (data == 'HundredDollar${i + 1}') {
+        modalControllerList[i].hundredController.text =
+            (int.parse(modalControllerList[i].hundredController.text) - 1)
+                .toString();
+        int hundredValue = _controllerHundred.text.isEmpty
+            ? 0
+            : int.parse(_controllerHundred.text);
+        _controllerHundred.text = (hundredValue + 1).toString();
+        break;
+      }
+    }
+  }
+
+  void _forTensBottomRow(String data) {
+    for (int i = 0; i < 9; i++) {
+      if (data == 'TenDollar${i + 1}') {
+        modalControllerList[i].tensController.text =
+            (int.parse(modalControllerList[i].tensController.text) - 1)
+                .toString();
+        int tensValue =
+            _controllerTens.text.isEmpty ? 0 : int.parse(_controllerTens.text);
+        _controllerTens.text = (tensValue + 1).toString();
+        break;
+      }
+    }
+  }
+
+  void _forOnesBottomRow(String data) {
+    for (int i = 0; i < 9; i++) {
+      if (data == 'OneDollar${i + 1}') {
+        modalControllerList[i].onesController.text =
+            (int.parse(modalControllerList[i].onesController.text) - 1)
+                .toString();
+        int onesValue =
+            _controllerOnes.text.isEmpty ? 0 : int.parse(_controllerOnes.text);
+        _controllerOnes.text = (onesValue + 1).toString();
+        break;
+      }
+    }
+  }
 }
