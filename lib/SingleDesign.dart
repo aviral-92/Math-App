@@ -1,19 +1,44 @@
+import 'package:MathApp/FirstPage.dart';
 import 'package:MathApp/Rows/MiddleRow.dart';
 import 'package:flutter/material.dart';
 import 'Rows/BottomRow.dart';
 import 'modal/ModalController.dart';
 
 class SingleDesign extends StatefulWidget {
+  final controllerThousand;
+  final controllerHundred;
+  final controllerTens;
+  final controllerOnes;
+  final controllerDistribution;
+  final originalNumber;
+
+  const SingleDesign({
+    Key key,
+    this.controllerThousand,
+    this.controllerHundred,
+    this.controllerTens,
+    this.controllerOnes,
+    this.controllerDistribution,
+    this.originalNumber,
+  }) : super(key: key);
   @override
-  _SingleDesign createState() => _SingleDesign();
+  _SingleDesign createState() => _SingleDesign(
+        this.controllerThousand,
+        this.controllerHundred,
+        this.controllerTens,
+        this.controllerOnes,
+        this.controllerDistribution,
+        this.originalNumber,
+      );
 }
 
 class _SingleDesign extends State<SingleDesign> {
-  final controllerThousand = new TextEditingController();
-  final controllerHundred = new TextEditingController();
-  final controllerTens = new TextEditingController();
-  final controllerOnes = new TextEditingController();
-  final controllerDistribution = new TextEditingController();
+  final controllerThousand;
+  final controllerHundred;
+  final controllerTens;
+  final controllerOnes;
+  final controllerDistribution;
+  final originalNumber;
 
   ModalController modalController1 = new ModalController();
   ModalController modalController2 = new ModalController();
@@ -27,13 +52,18 @@ class _SingleDesign extends State<SingleDesign> {
 
   List<ModalController> modalControllerList;
 
+  _SingleDesign(
+    this.controllerThousand,
+    this.controllerHundred,
+    this.controllerTens,
+    this.controllerOnes,
+    this.controllerDistribution,
+    this.originalNumber,
+  );
+
   @override
   void initState() {
     super.initState();
-    controllerThousand.addListener(() => setState(() {}));
-    controllerHundred.addListener(() => setState(() {}));
-    controllerTens.addListener(() => setState(() {}));
-    controllerOnes.addListener(() => setState(() {}));
     modalControllerList = [
       modalController1,
       modalController2,
@@ -51,7 +81,110 @@ class _SingleDesign extends State<SingleDesign> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Math-App'),
+        backgroundColor: Colors.lightBlue,
+        title: Text(
+          'Math-App',
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        elevation: 6,
+        actions: [
+          FlatButton(
+            onPressed: () {
+              fun();
+            },
+            child: Text(
+              'Result',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          )
+        ],
+      ),
+      drawer: Container(
+        width: 230, //MediaQuery.of(context).size.width - 250,
+        height: double.infinity,
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 28,
+                    left: 20,
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      //print('object');
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => FirstPage()));
+                    },
+                    child: Text(
+                      'Reset',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 8,
+                    left: 20,
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      //print('object');
+                    },
+                    child: Text(
+                      'Instructions',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 8,
+                    left: 20,
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      //print('object');
+                    },
+                    child: Text(
+                      'Exit',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
       body: SafeArea(
         top: false,
@@ -89,6 +222,7 @@ class _SingleDesign extends State<SingleDesign> {
               controllerTens: controllerTens,
               controllerOnes: controllerOnes,
               modalControllerList: this.modalControllerList,
+              controllerDistribution: this.controllerDistribution,
             ),
           ],
         ),
@@ -101,7 +235,7 @@ class _SingleDesign extends State<SingleDesign> {
         child: Container(
           width: 75,
           child: TextField(
-            maxLength: 5,
+            //maxLength: 5,
             style: TextStyle(
               fontSize: 21,
             ),
@@ -113,19 +247,59 @@ class _SingleDesign extends State<SingleDesign> {
               ),
             ),
             controller: controller,
+            //enabled: false,
+            readOnly: true,
           ),
         ),
       );
 
-  void cases(int data, TextEditingController myController) {
-    for (int i = 0; i < 10; i++) {
-      if (i == data) {
-        myController.text =
-            myController.text.isEmpty || myController.text == '0'
-                ? i.toString()
-                : '${myController.text}$i';
-        break;
-      }
+  void fun() {
+    int num = int.parse(originalNumber);
+    int quotient = num ~/ int.parse(controllerDistribution.text);
+    int remainder = num % int.parse(controllerDistribution.text);
+
+    String resultQuotientString =
+        modalControllerList[0].thousandController.text +
+            modalControllerList[0].hundredController.text +
+            modalControllerList[0].tensController.text +
+            modalControllerList[0].onesController.text;
+    int resultQuotient = int.parse(resultQuotientString);
+
+    String resultRemainderString = controllerThousand.text +
+        controllerHundred.text +
+        controllerTens.text +
+        controllerOnes.text;
+    int resultRemainder = int.parse(resultRemainderString);
+
+    if (quotient == resultQuotient && remainder == resultRemainder) {
+      showDialog(
+        context: context,
+        builder: (_) => _alertDialog('Success'),
+        barrierDismissible: true,
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (_) => _alertDialog('Fail'),
+        barrierDismissible: true,
+      );
     }
+    print(
+        'Quotient = $quotient && Remainder = $remainder && Result Quotient = $resultQuotient && controllerThousand = $resultRemainder');
+    //print(originalNumber);
   }
+
+  Widget _alertDialog(String num) => AlertDialog(
+        title: Text('$num'),
+        content: Text('You got $num!!!'),
+        actions: [
+          FlatButton(
+            onPressed: () {
+              Navigator.of(context, rootNavigator: true).pop();
+            },
+            child: Text('OK'),
+          )
+        ],
+        elevation: 24,
+      );
 }

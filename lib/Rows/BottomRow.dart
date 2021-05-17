@@ -6,6 +6,7 @@ class BottomRow extends StatefulWidget {
   final controllerHundred;
   final controllerTens;
   final controllerOnes;
+  final controllerDistribution;
 
   final List<ModalController> modalControllerList;
 
@@ -16,7 +17,9 @@ class BottomRow extends StatefulWidget {
     this.controllerTens,
     this.controllerOnes,
     this.modalControllerList,
+    this.controllerDistribution,
   }) : super(key: key);
+
   @override
   _BottomRowState createState() => _BottomRowState(
         this.controllerThousand,
@@ -24,6 +27,7 @@ class BottomRow extends StatefulWidget {
         this.controllerTens,
         this.controllerOnes,
         this.modalControllerList,
+        this.controllerDistribution,
       );
 }
 
@@ -32,7 +36,7 @@ class _BottomRowState extends State<BottomRow> {
   final _controllerHundred;
   final _controllerTens;
   final _controllerOnes;
-  final controllerDistribution = new TextEditingController();
+  final TextEditingController controllerDistribution;
 
   final List<ModalController> modalControllerList;
 
@@ -42,6 +46,7 @@ class _BottomRowState extends State<BottomRow> {
     this._controllerTens,
     this._controllerOnes,
     this.modalControllerList,
+    this.controllerDistribution,
   );
   @override
   Widget build(BuildContext context) {
@@ -55,27 +60,51 @@ class _BottomRowState extends State<BottomRow> {
           children: [
             Container(
               width: 50,
-              child: TextField(
-                maxLength: 1,
-                style: TextStyle(
-                  fontSize: 21,
-                ),
-                decoration: InputDecoration(
-                  border: new OutlineInputBorder(
-                    borderSide: new BorderSide(
-                      color: Colors.teal,
-                    ),
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.mail,
+                    color: Colors.green,
+                    //size: 38,
                   ),
-                ),
-                controller: controllerDistribution,
+                  TextField(
+                    maxLength: 1,
+                    style: TextStyle(
+                      fontSize: 21,
+                    ),
+                    decoration: InputDecoration(
+                      border: new OutlineInputBorder(
+                        borderSide: new BorderSide(
+                          color: Colors.teal,
+                        ),
+                      ),
+                    ),
+                    controller: controllerDistribution,
+                    //onChanged: (value) => textFieldOnChange(value),
+                    readOnly: true,
+                    //onEditingComplete: (value) => textFieldOnChange(value),
+                  ),
+                ],
               ),
             ),
+            //stacks ? getWrap(controllerDistribution.text) : Container(),
             getWrap(controllerDistribution.text),
           ],
         ),
       ),
     );
   }
+
+  /*bool stacks = true;
+  String txtValue;
+
+  void textFieldOnChange(value) {
+    setState(() {
+      stacks = true;
+      this.txtValue = value;
+      //controllerDistribution.text = value;
+    });
+  }*/
 
   List<Widget> getWrapLoop(int num) {
     List<Widget> list = new List();
@@ -89,14 +118,15 @@ class _BottomRowState extends State<BottomRow> {
     return list;
   }
 
-  Widget getWrap(String num) {
-    if (num.isEmpty) {
+  Widget getWrap(String val) {
+    if (val == null || val.isEmpty) {
+      print('empty');
       return Container();
     }
     return Wrap(
       spacing: 13.0,
       alignment: WrapAlignment.start,
-      children: getWrapLoop(int.parse(num)),
+      children: getWrapLoop(int.parse(val)),
     );
   }
 

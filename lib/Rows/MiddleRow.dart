@@ -85,16 +85,21 @@ class _MiddleRowState extends State<MiddleRow> {
   Widget getRadioButtons(int _radioValue, Function fun) {
     return Row(
       children: [
+        //Text('L'),
+        Icon(Icons.arrow_back),
         Radio(
           value: 0,
           groupValue: _radioValue,
           onChanged: fun,
         ),
+        //Text('R'),
+
         Radio(
           value: 1,
           groupValue: _radioValue,
           onChanged: fun,
         ),
+        Icon(Icons.arrow_forward),
       ],
     );
   }

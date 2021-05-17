@@ -1,4 +1,5 @@
-import 'package:MathApp/SingleDesign.dart';
+import 'package:MathApp/FirstPage.dart';
+//import 'package:MathApp/SingleDesign.dart';
 import 'package:flutter/material.dart';
 
 //import 'LandscapeMode.dart';
@@ -13,7 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: SingleDesign(), //LandscapeMode(),
+      home: FirstPage(), //SingleDesign(), //LandscapeMode(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
