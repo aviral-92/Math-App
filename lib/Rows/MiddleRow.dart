@@ -160,6 +160,7 @@ class _MiddleRowState extends State<MiddleRow> {
                   },
                   onAccept: (data) {
                     setState(() {
+                      print('.....');
                       _forHundred(data);
                     });
                   },
@@ -304,39 +305,48 @@ class _MiddleRowState extends State<MiddleRow> {
   }
 
   void _forHundred(String data) {
-    int hundredValue = _controllerHundred.text.isEmpty
-        ? 0
-        : int.parse(_controllerHundred.text);
-    if (data == 'ThousandDollar') {
-      int thousandValue = int.parse(_controllerThousand.text);
-      _controllerThousand.text = (thousandValue - 1).toString();
-      _controllerHundred.text = (hundredValue + 10).toString();
-    } else if (data == 'TenDollar') {
-      int tensValue = int.parse(_controllerTens.text);
-      if (tensValue < 10) {
-        showDialog(
-          context: context,
-          builder: (_) => _alertDialog('10'),
-          barrierDismissible: true,
-        );
-      } else {
-        _controllerTens.text = (tensValue - 10).toString();
-        _controllerHundred.text = (hundredValue + 1).toString();
+    print('000000---->$_radioValueTens');
+    if (_radioValueTens == null || _radioValueTens == 1) {
+      showDialog(
+        context: context,
+        builder: (_) => _alertDialog('Please select left, to move left.'),
+        barrierDismissible: true,
+      );
+    } else {
+      int hundredValue = _controllerHundred.text.isEmpty
+          ? 0
+          : int.parse(_controllerHundred.text);
+      if (data == 'ThousandDollar') {
+        int thousandValue = int.parse(_controllerThousand.text);
+        _controllerThousand.text = (thousandValue - 1).toString();
+        _controllerHundred.text = (hundredValue + 10).toString();
+      } else if (data == 'TenDollar') {
+        int tensValue = int.parse(_controllerTens.text);
+        if (tensValue < 10) {
+          showDialog(
+            context: context,
+            builder: (_) => _alertDialog('Sorry, bill is less than \$10'),
+            barrierDismissible: true,
+          );
+        } else {
+          _controllerTens.text = (tensValue - 10).toString();
+          _controllerHundred.text = (hundredValue + 1).toString();
+        }
+      } else if (data == 'OneDollar') {
+        int onesValue = int.parse(_controllerOnes.text);
+        if (onesValue < 100) {
+          showDialog(
+            context: context,
+            builder: (_) => _alertDialog('Sorry, bill is less than \$100'),
+            barrierDismissible: true,
+          );
+        } else {
+          _controllerOnes.text = (onesValue - 100).toString();
+          _controllerHundred.text = (hundredValue + 1).toString();
+        }
       }
-    } else if (data == 'OneDollar') {
-      int onesValue = int.parse(_controllerOnes.text);
-      if (onesValue < 100) {
-        showDialog(
-          context: context,
-          builder: (_) => _alertDialog('100'),
-          barrierDismissible: true,
-        );
-      } else {
-        _controllerOnes.text = (onesValue - 100).toString();
-        _controllerHundred.text = (hundredValue + 1).toString();
-      }
+      _forHundredBottomRow(data);
     }
-    _forHundredBottomRow(data);
   }
 
   void _forThousand(String data) {
@@ -348,7 +358,7 @@ class _MiddleRowState extends State<MiddleRow> {
       if (hundredsValue < 10) {
         showDialog(
           context: context,
-          builder: (_) => _alertDialog('10'),
+          builder: (_) => _alertDialog('Sorry, bill is less than \$10'),
           barrierDismissible: true,
         );
       } else {
@@ -360,7 +370,7 @@ class _MiddleRowState extends State<MiddleRow> {
       if (tensValue < 100) {
         showDialog(
           context: context,
-          builder: (_) => _alertDialog('100'),
+          builder: (_) => _alertDialog('Sorry, bill is less than \$100'),
           barrierDismissible: true,
         );
       } else {
@@ -372,7 +382,7 @@ class _MiddleRowState extends State<MiddleRow> {
       if (onesValue < 1000) {
         showDialog(
           context: context,
-          builder: (_) => _alertDialog('1000'),
+          builder: (_) => _alertDialog('Sorry, bill is less than \$1000'),
           barrierDismissible: true,
         );
       } else {
@@ -384,6 +394,7 @@ class _MiddleRowState extends State<MiddleRow> {
   }
 
   void _forTen(String data) {
+    print('11111 --> $_radioValueTens');
     int tensValue =
         _controllerTens.text.isEmpty ? 0 : int.parse(_controllerTens.text);
     if (data == 'ThousandDollar') {
@@ -391,15 +402,24 @@ class _MiddleRowState extends State<MiddleRow> {
           (int.parse(_controllerThousand.text) - 1).toString();
       _controllerTens.text = (tensValue + 100).toString();
     } else if (data == 'HundredDollar') {
-      _controllerHundred.text =
-          (int.parse(_controllerHundred.text) - 1).toString();
-      _controllerTens.text = (tensValue + 10).toString();
+      print('222222 --> $_radioValueHundred');
+      if (_radioValueHundred == null || _radioValueHundred == 0) {
+        showDialog(
+          context: context,
+          builder: (_) => _alertDialog('Please select right radio button'),
+          barrierDismissible: true,
+        );
+      } else {
+        _controllerHundred.text =
+            (int.parse(_controllerHundred.text) - 1).toString();
+        _controllerTens.text = (tensValue + 10).toString();
+      }
     } else if (data == 'OneDollar') {
       int onesValue = int.parse(_controllerOnes.text);
       if (onesValue < 10) {
         showDialog(
           context: context,
-          builder: (_) => _alertDialog('10'),
+          builder: (_) => _alertDialog('Sorry, bill is less than \$10'),
           barrierDismissible: true,
         );
       } else {
@@ -430,7 +450,7 @@ class _MiddleRowState extends State<MiddleRow> {
 
   Widget _alertDialog(String num) => AlertDialog(
         title: Text('Invalid Move!'),
-        content: Text('Sorry, bill is less than \$$num'),
+        content: Text('$num'),
         actions: [
           FlatButton(
             onPressed: () {

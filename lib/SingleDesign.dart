@@ -105,87 +105,7 @@ class _SingleDesign extends State<SingleDesign> {
           )
         ],
       ),
-      drawer: Container(
-        width: 230, //MediaQuery.of(context).size.width - 250,
-        height: double.infinity,
-        color: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 28,
-                    left: 20,
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      //print('object');
-                      Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => FirstPage()));
-                    },
-                    child: Text(
-                      'Reset',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 8,
-                    left: 20,
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      //print('object');
-                    },
-                    child: Text(
-                      'Instructions',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 8,
-                    left: 20,
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      //print('object');
-                    },
-                    child: Text(
-                      'Exit',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+      drawer: getDrawer(),
       body: SafeArea(
         top: false,
         bottom: false,
@@ -301,5 +221,93 @@ class _SingleDesign extends State<SingleDesign> {
           )
         ],
         elevation: 24,
+      );
+
+  getDrawer() => Container(
+        width: MediaQuery.of(context).size.width - 75,
+        height: double.infinity,
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 28,
+                    left: 75,
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => FirstPage()));
+                    },
+                    child: Text(
+                      'Reset',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                children: [
+                  SizedBox(height: 20.0),
+                  ExpansionTile(
+                    title: Text(
+                      'Instructions',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 45),
+                        child: Text(
+                          'On the Island of Decigona, there are only \$1 bills, \$10 bills, \$100 bills, and \$1,000 bills. ' +
+                              'Grandma Walker often sends money to her grandchildren. She always gives the same amount to each ' +
+                              'grandchild. Figure out how many of each bill will go into each envelope. ' +
+                              'Larger bills can be exchanged for a smaller unit by dragging to the right.',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 22,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 8,
+                    left: 75,
+                  ),
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Text(
+                      'Exit',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       );
 }
