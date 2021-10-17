@@ -305,22 +305,27 @@ class _MiddleRowState extends State<MiddleRow> {
   }
 
   void _forHundred(String data) {
-    print('000000---->$_radioValueTens');
-    if (_radioValueTens == null || _radioValueTens == 1) {
-      showDialog(
-        context: context,
-        builder: (_) => _alertDialog('Please select left, to move left.'),
-        barrierDismissible: true,
-      );
-    } else {
-      int hundredValue = _controllerHundred.text.isEmpty
-          ? 0
-          : int.parse(_controllerHundred.text);
-      if (data == 'ThousandDollar') {
-        int thousandValue = int.parse(_controllerThousand.text);
+    print('000001---->$_radioValueTens, DATA====> $data');
+    int hundredValue = _controllerHundred.text.isEmpty
+        ? 0
+        : int.parse(_controllerHundred.text);
+    if (data == 'ThousandDollar') {
+      int thousandValue = int.parse(_controllerThousand.text);
+      if (thousandValue > 0) {
         _controllerThousand.text = (thousandValue - 1).toString();
         _controllerHundred.text = (hundredValue + 10).toString();
-      } else if (data == 'TenDollar') {
+      } else {
+        cannotSubtractFromZero();
+      }
+    } else if (data == 'TenDollar') {
+      if (_radioValueTens != 0) {
+        showDialog(
+          context: context,
+          builder: (_) =>
+              _alertDialog('Please select left radio button to move left.'),
+          barrierDismissible: true,
+        );
+      } else {
         int tensValue = int.parse(_controllerTens.text);
         if (tensValue < 10) {
           showDialog(
@@ -332,21 +337,29 @@ class _MiddleRowState extends State<MiddleRow> {
           _controllerTens.text = (tensValue - 10).toString();
           _controllerHundred.text = (hundredValue + 1).toString();
         }
-      } else if (data == 'OneDollar') {
-        int onesValue = int.parse(_controllerOnes.text);
-        if (onesValue < 100) {
-          showDialog(
-            context: context,
-            builder: (_) => _alertDialog('Sorry, bill is less than \$100'),
-            barrierDismissible: true,
-          );
-        } else {
-          _controllerOnes.text = (onesValue - 100).toString();
-          _controllerHundred.text = (hundredValue + 1).toString();
-        }
       }
-      _forHundredBottomRow(data);
+    } else if (data == 'OneDollar') {
+      int onesValue = int.parse(_controllerOnes.text);
+      if (onesValue < 100) {
+        showDialog(
+          context: context,
+          builder: (_) => _alertDialog('Sorry, bill is less than \$100'),
+          barrierDismissible: true,
+        );
+      } else {
+        _controllerOnes.text = (onesValue - 100).toString();
+        _controllerHundred.text = (hundredValue + 1).toString();
+      }
     }
+    _forHundredBottomRow(data);
+  }
+
+  void cannotSubtractFromZero() {
+    showDialog(
+      context: context,
+      builder: (_) => _alertDialog('you cannot move, bill is already zero.'),
+      barrierDismissible: true,
+    );
   }
 
   void _forThousand(String data) {
@@ -394,25 +407,32 @@ class _MiddleRowState extends State<MiddleRow> {
   }
 
   void _forTen(String data) {
-    print('11111 --> $_radioValueTens');
     int tensValue =
         _controllerTens.text.isEmpty ? 0 : int.parse(_controllerTens.text);
     if (data == 'ThousandDollar') {
-      _controllerThousand.text =
-          (int.parse(_controllerThousand.text) - 1).toString();
-      _controllerTens.text = (tensValue + 100).toString();
+      if (int.parse(_controllerThousand.text) > 0) {
+        _controllerThousand.text =
+            (int.parse(_controllerThousand.text) - 1).toString();
+        _controllerTens.text = (tensValue + 100).toString();
+      } else {
+        cannotSubtractFromZero();
+      }
     } else if (data == 'HundredDollar') {
-      print('222222 --> $_radioValueHundred');
-      if (_radioValueHundred == null || _radioValueHundred == 0) {
+      if (_radioValueHundred != 1) {
         showDialog(
           context: context,
-          builder: (_) => _alertDialog('Please select right radio button'),
+          builder: (_) =>
+              _alertDialog('Please select right radio button to move.'),
           barrierDismissible: true,
         );
       } else {
-        _controllerHundred.text =
-            (int.parse(_controllerHundred.text) - 1).toString();
-        _controllerTens.text = (tensValue + 10).toString();
+        if (int.parse(_controllerHundred.text) > 0) {
+          _controllerHundred.text =
+              (int.parse(_controllerHundred.text) - 1).toString();
+          _controllerTens.text = (tensValue + 10).toString();
+        } else {
+          cannotSubtractFromZero();
+        }
       }
     } else if (data == 'OneDollar') {
       int onesValue = int.parse(_controllerOnes.text);
@@ -434,16 +454,38 @@ class _MiddleRowState extends State<MiddleRow> {
     int onesValue =
         _controllerOnes.text.isEmpty ? 0 : int.parse(_controllerOnes.text);
     if (data == 'ThousandDollar') {
-      _controllerThousand.text =
-          (int.parse(_controllerThousand.text) - 1).toString();
-      _controllerOnes.text = (onesValue + 1000).toString();
+      if (int.parse(_controllerThousand.text) > 0) {
+        _controllerThousand.text =
+            (int.parse(_controllerThousand.text) - 1).toString();
+        _controllerOnes.text = (onesValue + 1000).toString();
+      } else {
+        cannotSubtractFromZero();
+      }
     } else if (data == 'HundredDollar') {
-      _controllerHundred.text =
-          (int.parse(_controllerHundred.text) - 1).toString();
-      _controllerOnes.text = (onesValue + 100).toString();
+      if (int.parse(_controllerHundred.text) > 0) {
+        _controllerHundred.text =
+            (int.parse(_controllerHundred.text) - 1).toString();
+        _controllerOnes.text = (onesValue + 100).toString();
+      } else {
+        cannotSubtractFromZero();
+      }
     } else if (data == 'TenDollar') {
-      _controllerTens.text = (int.parse(_controllerTens.text) - 1).toString();
-      _controllerOnes.text = (onesValue + 10).toString();
+      if (_radioValueTens != 1) {
+        showDialog(
+          context: context,
+          builder: (_) => _alertDialog(
+              'you cannot move, please select right radio button to move right.'),
+          barrierDismissible: true,
+        );
+      } else {
+        if (int.parse(_controllerTens.text) > 0) {
+          _controllerTens.text =
+              (int.parse(_controllerTens.text) - 1).toString();
+          _controllerOnes.text = (onesValue + 10).toString();
+        } else {
+          cannotSubtractFromZero();
+        }
+      }
     }
     _forOnesBottomRow(data);
   }
@@ -465,29 +507,48 @@ class _MiddleRowState extends State<MiddleRow> {
   void _forThousandBottomRow(String data) {
     for (int i = 0; i < 9; i++) {
       if (data == 'ThousandDollar${i + 1}') {
-        modalControllerList[i].thousandController.text =
-            (int.parse(modalControllerList[i].thousandController.text) - 1)
-                .toString();
-        int thousandValue = _controllerThousand.text.isEmpty
-            ? 0
-            : int.parse(_controllerThousand.text);
-        _controllerThousand.text = (thousandValue + 1).toString();
-        break;
+        if (int.parse(modalControllerList[i].thousandController.text) > 0) {
+          modalControllerList[i].thousandController.text =
+              (int.parse(modalControllerList[i].thousandController.text) - 1)
+                  .toString();
+          int thousandValue = _controllerThousand.text.isEmpty
+              ? 0
+              : int.parse(_controllerThousand.text);
+          _controllerThousand.text = (thousandValue + 1).toString();
+          break;
+        } else {
+          showDialog(
+            context: context,
+            builder: (_) =>
+                _alertDialog('you cannot move, value is already zero.'),
+            barrierDismissible: true,
+          );
+        }
       }
     }
   }
 
   void _forHundredBottomRow(String data) {
+    print('object---> $data');
     for (int i = 0; i < 9; i++) {
       if (data == 'HundredDollar${i + 1}') {
-        modalControllerList[i].hundredController.text =
-            (int.parse(modalControllerList[i].hundredController.text) - 1)
-                .toString();
-        int hundredValue = _controllerHundred.text.isEmpty
-            ? 0
-            : int.parse(_controllerHundred.text);
-        _controllerHundred.text = (hundredValue + 1).toString();
-        break;
+        if (int.parse(modalControllerList[i].hundredController.text) > 0) {
+          modalControllerList[i].hundredController.text =
+              (int.parse(modalControllerList[i].hundredController.text) - 1)
+                  .toString();
+          int hundredValue = _controllerHundred.text.isEmpty
+              ? 0
+              : int.parse(_controllerHundred.text);
+          _controllerHundred.text = (hundredValue + 1).toString();
+          break;
+        } else {
+          showDialog(
+            context: context,
+            builder: (_) =>
+                _alertDialog('you cannot move, value is already zero.'),
+            barrierDismissible: true,
+          );
+        }
       }
     }
   }
@@ -495,13 +556,23 @@ class _MiddleRowState extends State<MiddleRow> {
   void _forTensBottomRow(String data) {
     for (int i = 0; i < 9; i++) {
       if (data == 'TenDollar${i + 1}') {
-        modalControllerList[i].tensController.text =
-            (int.parse(modalControllerList[i].tensController.text) - 1)
-                .toString();
-        int tensValue =
-            _controllerTens.text.isEmpty ? 0 : int.parse(_controllerTens.text);
-        _controllerTens.text = (tensValue + 1).toString();
-        break;
+        if (int.parse(modalControllerList[i].tensController.text) > 0) {
+          modalControllerList[i].tensController.text =
+              (int.parse(modalControllerList[i].tensController.text) - 1)
+                  .toString();
+          int tensValue = _controllerTens.text.isEmpty
+              ? 0
+              : int.parse(_controllerTens.text);
+          _controllerTens.text = (tensValue + 1).toString();
+          break;
+        } else {
+          showDialog(
+            context: context,
+            builder: (_) =>
+                _alertDialog('you cannot move, value is already zero.'),
+            barrierDismissible: true,
+          );
+        }
       }
     }
   }
@@ -509,13 +580,23 @@ class _MiddleRowState extends State<MiddleRow> {
   void _forOnesBottomRow(String data) {
     for (int i = 0; i < 9; i++) {
       if (data == 'OneDollar${i + 1}') {
-        modalControllerList[i].onesController.text =
-            (int.parse(modalControllerList[i].onesController.text) - 1)
-                .toString();
-        int onesValue =
-            _controllerOnes.text.isEmpty ? 0 : int.parse(_controllerOnes.text);
-        _controllerOnes.text = (onesValue + 1).toString();
-        break;
+        if (int.parse(modalControllerList[i].onesController.text) > 0) {
+          modalControllerList[i].onesController.text =
+              (int.parse(modalControllerList[i].onesController.text) - 1)
+                  .toString();
+          int onesValue = _controllerOnes.text.isEmpty
+              ? 0
+              : int.parse(_controllerOnes.text);
+          _controllerOnes.text = (onesValue + 1).toString();
+          break;
+        } else {
+          showDialog(
+            context: context,
+            builder: (_) =>
+                _alertDialog('you cannot move, value is already zero.'),
+            barrierDismissible: true,
+          );
+        }
       }
     }
   }

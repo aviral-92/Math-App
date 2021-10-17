@@ -1,4 +1,4 @@
-import 'package:MathApp/SingleDesign.dart';
+import 'package:MathApp/SecondPage.dart';
 import 'package:flutter/material.dart';
 
 class FirstPage extends StatelessWidget {
@@ -73,7 +73,7 @@ class FirstPage extends StatelessWidget {
                     }
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                        builder: (context) => SingleDesign(
+                        builder: (context) => SecondPage(
                           controllerThousand: controllerThousand,
                           controllerHundred: controllerHundred,
                           controllerTens: controllerTens,

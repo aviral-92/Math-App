@@ -95,17 +95,6 @@ class _BottomRowState extends State<BottomRow> {
     );
   }
 
-  /*bool stacks = true;
-  String txtValue;
-
-  void textFieldOnChange(value) {
-    setState(() {
-      stacks = true;
-      this.txtValue = value;
-      //controllerDistribution.text = value;
-    });
-  }*/
-
   List<Widget> getWrapLoop(int num) {
     List<Widget> list = new List();
 
@@ -222,6 +211,7 @@ class _BottomRowState extends State<BottomRow> {
   }
 
   Widget _getInnerContainer(Color color, TextEditingController txt) {
+    //print('hello');
     return Container(
       height: 20,
       width: 70,
@@ -246,21 +236,64 @@ class _BottomRowState extends State<BottomRow> {
     print(data);
     if (data == 'ThousandDollar') {
       int thousandValue = int.parse(_controllerThousand.text);
-      _controllerThousand.text = (thousandValue - 1).toString();
+      if (thousandValue > 0) {
+        //print('ThousandDollar--> $thousandValue');
+        _controllerThousand.text = (thousandValue - 1).toString();
+        changeText(key, data);
+      } else {
+        cannotSubtractFromZero();
+      }
     } else if (data == 'HundredDollar') {
       int hundredValue = int.parse(_controllerHundred.text);
-      _controllerHundred.text = (hundredValue - 1).toString();
+      if (hundredValue > 0) {
+        _controllerHundred.text = (hundredValue - 1).toString();
+        changeText(key, data);
+      } else {
+        cannotSubtractFromZero();
+      }
     } else if (data == 'TenDollar') {
       int tenValue = int.parse(_controllerTens.text);
-      _controllerTens.text = (tenValue - 1).toString();
+      if (tenValue > 0) {
+        _controllerTens.text = (tenValue - 1).toString();
+        changeText(key, data);
+      } else {
+        cannotSubtractFromZero();
+      }
     } else if (data == 'OneDollar') {
       int oneValue = int.parse(_controllerOnes.text);
-      _controllerOnes.text = (oneValue - 1).toString();
+      if (oneValue > 0) {
+        _controllerOnes.text = (oneValue - 1).toString();
+        changeText(key, data);
+      } else {
+        cannotSubtractFromZero();
+      }
     }
-    changeText(key, data);
   }
 
+  void cannotSubtractFromZero() {
+    showDialog(
+      context: context,
+      builder: (_) => _alertDialog('you cannot move, bill is already zero.'),
+      barrierDismissible: true,
+    );
+  }
+
+  Widget _alertDialog(String num) => AlertDialog(
+        title: Text('Invalid Move!'),
+        content: Text('$num'),
+        actions: [
+          FlatButton(
+            onPressed: () {
+              Navigator.of(context, rootNavigator: true).pop();
+            },
+            child: Text('OK'),
+          )
+        ],
+        elevation: 24,
+      );
+
   changeText(int key, String data) {
+    //print('KEY===> $key, DATA====> $data');
     setState(
       () {
         for (int i = 0; i < 9; i++) {

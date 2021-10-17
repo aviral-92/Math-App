@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'Rows/BottomRow.dart';
 import 'modal/ModalController.dart';
 
-class SingleDesign extends StatefulWidget {
+class SecondPage extends StatefulWidget {
   final controllerThousand;
   final controllerHundred;
   final controllerTens;
@@ -12,7 +12,7 @@ class SingleDesign extends StatefulWidget {
   final controllerDistribution;
   final originalNumber;
 
-  const SingleDesign({
+  const SecondPage({
     Key key,
     this.controllerThousand,
     this.controllerHundred,
@@ -32,7 +32,7 @@ class SingleDesign extends StatefulWidget {
       );
 }
 
-class _SingleDesign extends State<SingleDesign> {
+class _SingleDesign extends State<SecondPage> {
   final controllerThousand;
   final controllerHundred;
   final controllerTens;
@@ -194,7 +194,7 @@ class _SingleDesign extends State<SingleDesign> {
     if (quotient == resultQuotient && remainder == resultRemainder) {
       showDialog(
         context: context,
-        builder: (_) => _alertDialog('Success'),
+        builder: (_) => _alertDialog('Pass'),
         barrierDismissible: true,
       );
     } else {
@@ -211,7 +211,7 @@ class _SingleDesign extends State<SingleDesign> {
 
   Widget _alertDialog(String num) => AlertDialog(
         title: Text('$num'),
-        content: Text('You got $num!!!'),
+        content: Text('You $num!!!'),
         actions: [
           FlatButton(
             onPressed: () {
