@@ -1,7 +1,6 @@
 import 'package:MathApp/FirstPage.dart';
-import 'package:MathApp/Rows/MiddleRow.dart';
+import 'package:MathApp/Rows/BottomMiddleRow.dart';
 import 'package:flutter/material.dart';
-import 'Rows/BottomRow.dart';
 import 'modal/ModalController.dart';
 
 class SecondPage extends StatefulWidget {
@@ -9,7 +8,7 @@ class SecondPage extends StatefulWidget {
   final controllerHundred;
   final controllerTens;
   final controllerOnes;
-  final controllerDistribution;
+  final TextEditingController controllerDistribution;
   final originalNumber;
 
   const SecondPage({
@@ -37,7 +36,7 @@ class _SingleDesign extends State<SecondPage> {
   final controllerHundred;
   final controllerTens;
   final controllerOnes;
-  final controllerDistribution;
+  final TextEditingController controllerDistribution;
   final originalNumber;
 
   ModalController modalController1 = new ModalController();
@@ -51,6 +50,8 @@ class _SingleDesign extends State<SecondPage> {
   ModalController modalController9 = new ModalController();
 
   List<ModalController> modalControllerList;
+//
+  List<TextEditingController> hundredsList = List();
 
   _SingleDesign(
     this.controllerThousand,
@@ -63,18 +64,24 @@ class _SingleDesign extends State<SecondPage> {
 
   @override
   void initState() {
+    setState(() {
+      modalControllerList = [
+        modalController1,
+        modalController2,
+        modalController3,
+        modalController4,
+        modalController5,
+        modalController6,
+        modalController7,
+        modalController8,
+        modalController9,
+      ];
+
+      for (int i = 0; i < int.parse(controllerDistribution.text); i++) {
+        hundredsList.add(new TextEditingController(text: '0'));
+      }
+    });
     super.initState();
-    modalControllerList = [
-      modalController1,
-      modalController2,
-      modalController3,
-      modalController4,
-      modalController5,
-      modalController6,
-      modalController7,
-      modalController8,
-      modalController9,
-    ];
   }
 
   @override
@@ -127,22 +134,15 @@ class _SingleDesign extends State<SecondPage> {
                 ),
               ),
             ),
-            /* ***************Middle ROW STARTS*********** */
-            MiddleRow(
+            BottomMiddleRow(
               controllerThousand: this.controllerThousand,
               controllerHundred: this.controllerHundred,
               controllerTens: this.controllerTens,
               controllerOnes: this.controllerOnes,
               modalControllerList: modalControllerList,
-            ),
-            /* ***************Bottom ROW STARTS*********** */
-            BottomRow(
-              controllerThousand: controllerThousand,
-              controllerHundred: controllerHundred,
-              controllerTens: controllerTens,
-              controllerOnes: controllerOnes,
-              modalControllerList: this.modalControllerList,
-              controllerDistribution: this.controllerDistribution,
+              controllerDistribution: controllerDistribution,
+              hundredsList: hundredsList,
+              //num: ,
             ),
           ],
         ),
@@ -194,13 +194,13 @@ class _SingleDesign extends State<SecondPage> {
     if (quotient == resultQuotient && remainder == resultRemainder) {
       showDialog(
         context: context,
-        builder: (_) => _alertDialog('Pass'),
+        builder: (_) => _alertDialog('You did it.'),
         barrierDismissible: true,
       );
     } else {
       showDialog(
         context: context,
-        builder: (_) => _alertDialog('Fail'),
+        builder: (_) => _alertDialog('Error, try again'),
         barrierDismissible: true,
       );
     }
@@ -211,7 +211,7 @@ class _SingleDesign extends State<SecondPage> {
 
   Widget _alertDialog(String num) => AlertDialog(
         title: Text('$num'),
-        content: Text('You $num!!!'),
+        content: Text('$num!!!'),
         actions: [
           FlatButton(
             onPressed: () {
