@@ -1,5 +1,5 @@
 import 'package:MathApp/FirstPage.dart';
-import 'package:MathApp/Rows/BottomMiddleRow.dart';
+import 'package:MathApp/Rows/MiddleRow.dart';
 import 'package:flutter/material.dart';
 import 'modal/ModalController.dart';
 
@@ -93,6 +93,7 @@ class _SingleDesign extends State<SecondPage> {
           'Math-App',
           style: TextStyle(
             fontWeight: FontWeight.w700,
+            fontSize: MediaQuery.of(context).size.width > 900 ? 32 : 22,
           ),
         ),
         elevation: 6,
@@ -105,7 +106,7 @@ class _SingleDesign extends State<SecondPage> {
               'Result',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 20,
+                fontSize: MediaQuery.of(context).size.width < 900 ? 20 : 30,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -123,18 +124,22 @@ class _SingleDesign extends State<SecondPage> {
               flex: 3,
               child: Align(
                 alignment: Alignment.topCenter,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _getContainer(controllerThousand),
-                    _getContainer(controllerHundred),
-                    _getContainer(controllerTens),
-                    _getContainer(controllerOnes),
-                  ],
+                child: Padding(
+                  padding: EdgeInsets.all(
+                      MediaQuery.of(context).size.width > 900 ? 22 : 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _getContainer(controllerThousand),
+                      _getContainer(controllerHundred),
+                      _getContainer(controllerTens),
+                      _getContainer(controllerOnes),
+                    ],
+                  ),
                 ),
               ),
             ),
-            BottomMiddleRow(
+            MiddleRow(
               controllerThousand: this.controllerThousand,
               controllerHundred: this.controllerHundred,
               controllerTens: this.controllerTens,
@@ -150,28 +155,31 @@ class _SingleDesign extends State<SecondPage> {
     );
   }
 
-  Widget _getContainer(TextEditingController controller) => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          width: 75,
-          child: TextField(
-            //maxLength: 5,
-            style: TextStyle(
-              fontSize: 21,
-            ),
-            decoration: InputDecoration(
-              border: new OutlineInputBorder(
-                borderSide: new BorderSide(
-                  color: Colors.teal,
-                ),
+  Widget _getContainer(TextEditingController controller) {
+    double width = MediaQuery.of(context).size.width;
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        width: width < 900 ? 75 : 100,
+        child: TextField(
+          //maxLength: 5,
+          style: TextStyle(
+            fontSize: width < 900 ? 21 : 34,
+          ),
+          decoration: InputDecoration(
+            border: new OutlineInputBorder(
+              borderSide: new BorderSide(
+                color: Colors.teal,
               ),
             ),
-            controller: controller,
-            //enabled: false,
-            readOnly: true,
           ),
+          controller: controller,
+          //enabled: false,
+          readOnly: true,
         ),
-      );
+      ),
+    );
+  }
 
   void fun() {
     int num = int.parse(originalNumber);

@@ -7,7 +7,7 @@ class CommonWidgets {
   final _controllerTens;
   final _controllerOnes;
   final List<ModalController> modalControllerList;
-  final TextEditingController controllerDistribution;
+  //final TextEditingController controllerDistribution;
 
   CommonWidgets(
     this._controllerThousand,
@@ -15,11 +15,11 @@ class CommonWidgets {
     this._controllerTens,
     this._controllerOnes,
     this.modalControllerList,
-    this.controllerDistribution,
+    //this.controllerDistribution,
   );
 
   void forBill(String data, int key, BuildContext context) {
-    print('forBill====> $data');
+    //print('forBill====> $data');
     if (data == 'ThousandDollar') {
       int thousandValue = int.parse(_controllerThousand.text);
       if (thousandValue > 0) {
@@ -29,7 +29,7 @@ class CommonWidgets {
         cannotSubtractFromZero(context);
       }
     } else if (data == 'HundredDollar') {
-      print('=====HundredDollar=====');
+      //print('=====HundredDollar=====');
       int hundredValue = int.parse(_controllerHundred.text);
       if (hundredValue > 0) {
         _controllerHundred.text = (hundredValue - 1).toString();
@@ -154,13 +154,11 @@ class CommonWidgets {
   }
 
   void forThousandBottomRow(String data, BuildContext context) {
-    print('==>>>>>>>DATA-> $data');
+    //print('==>>>>>>>DATA-> $data');
     //test(data);
     for (int i = 0; i < 9; i++) {
       if (data == 'ThousandDollar${i + 1}') {
         if (int.parse(modalControllerList[i].thousandController.text) > 0) {
-          print(
-              '---->>>>> ${int.parse(modalControllerList[i].thousandController.text) - 1}');
           int value =
               int.parse(modalControllerList[i].thousandController.text) - 1;
           modalControllerList[i].thousandController = new TextEditingController(
@@ -185,7 +183,7 @@ class CommonWidgets {
   }
 
   void forHundred(String data, BuildContext context, int radioValue) {
-    print('000001---->$radioValue, DATA====> $data');
+    //print('000001---->$radioValue, DATA====> $data');
     int hundredValue = _controllerHundred.text.isEmpty
         ? 0
         : int.parse(_controllerHundred.text);
@@ -237,7 +235,7 @@ class CommonWidgets {
   }
 
   void forHundredBottomRow(String data, BuildContext context) {
-    print('object---> $data');
+    //print('object---> $data');
     for (int i = 0; i < 9; i++) {
       if (data == 'HundredDollar${i + 1}') {
         if (int.parse(modalControllerList[i].hundredController.text) > 0) {
@@ -396,30 +394,32 @@ class CommonWidgets {
   }
 
   Widget getDragTarget(String data, String stackImg, String img, Function fun,
-      BuildContext context, int radio) {
+      BuildContext context, int radio, TextEditingController controller) {
+    double width = MediaQuery.of(context).size.width;
     return DragTarget<String>(
       onWillAccept: (data) {
         return true;
       },
       onAccept: (data) {
         fun(data, context, radio);
-        print('Done again... $data');
+        //print('Done again... $data');
       },
       builder: (context, acceptData, rejectData) {
         return Draggable<String>(
           data: data,
-          child: _getGenericContainerWidget(stackImg, img, _controllerTens),
-          feedback: _getContainerMiddleRow(img, true),
+          child: _getGenericContainerWidget(stackImg, img, controller, width),
+          feedback: _getContainerMiddleRow(img, true, width),
         );
       },
     );
   }
 
-  Widget _getGenericContainerWidget(
-      String imgStack, String img, TextEditingController myController) {
+  Widget _getGenericContainerWidget(String imgStack, String img,
+      TextEditingController myController, double width) {
+    //print('myController.text --> ${myController.text}');
     return Container(
-      width: 95,
-      height: 70,
+      width: width < 900 ? 95 : 150,
+      height: width < 900 ? 70 : 105,
       decoration: myController.text.isEmpty || int.parse(myController.text) == 0
           ? BoxDecoration(
               border: Border.all(color: Colors.blueAccent),
@@ -436,9 +436,10 @@ class CommonWidgets {
     );
   }
 
-  Widget _getContainerMiddleRow(String img, bool isImg) => Container(
-        width: 95,
-        height: 70,
+  Widget _getContainerMiddleRow(String img, bool isImg, double width) =>
+      Container(
+        width: width < 900 ? 95 : 150,
+        height: width < 900 ? 70 : 105,
         decoration: isImg
             ? BoxDecoration(
                 image: DecorationImage(
@@ -449,21 +450,22 @@ class CommonWidgets {
             : BoxDecoration(),
       );
 
-  Widget getInnerContainer(Color color, TextEditingController txt) {
+  Widget getInnerContainer(
+      Color color, TextEditingController txt, double width) {
     return Container(
       height: 20,
       width: 70,
       color: color,
-      child: _getText(txt),
+      child: _getText(txt, width),
     );
   }
 
-  Widget _getText(TextEditingController controller) {
+  Widget _getText(TextEditingController controller, double width) {
     return Text(
       controller.text,
       style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w900,
+        fontSize: width < 900 ? 16 : 28,
+        fontWeight: FontWeight.w800,
         color: Colors.black87,
       ),
       textAlign: TextAlign.center,
